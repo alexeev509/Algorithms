@@ -1,20 +1,23 @@
+package maxMultiplication;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
+//IN PROCESS !! 
 public class MultiplySequence {
 
     static int massLen;
     static int multiplicationNumber;
     static int countOfElements;
     static int [] mass;
+
     public static void main(String[] args) throws IOException {
         readInput(System.in);
         searchMultiplication();
     }
-
 
 
     public static void readInput(InputStream s) throws IOException {
@@ -79,6 +82,4 @@ public class MultiplySequence {
     }
 
 
-    
-    
 }
