@@ -57,9 +57,7 @@ public class MultiplySequence {
                 long mult = mass[j] * mass[i];
                 //Или учитывать предыдущие умножения
                 long mult2 = multiplication_mass[j] * mass[i];
-//                if(i==6 && j==5){
-//                    System.out.println();
-//                }
+
 
                 if (mult <= multiplicationNumber && multiplicationNumber % mult == 0) {
 
@@ -69,13 +67,13 @@ public class MultiplySequence {
                         counter_mass[i]++;
                         stop = true;
                         break;
-                    } else if (counter_mass[i] + counter_mass[j] == countOfElements && mult2 == multiplicationNumber) {
+                    } else if (counter_mass[j] + 1 == countOfElements && mult2 == multiplicationNumber) {
                         multiplication_mass[i] = mult2;
                         index_mass[i] = j;
-                        counter_mass[i] += counter_mass[j];
+                        counter_mass[i] = counter_mass[j] + 1;
                         stop = true;
                         break;
-                    } else if (counter_mass[i] + 1 < countOfElements && mult < multiplicationNumber) {
+                    } else if (counter_mass[i] + 1 < countOfElements && mult <= multiplicationNumber) {
                         multiplication_mass[i] = mult;
                         index_mass[i] = j;
                         counter_mass[i]++;
@@ -93,19 +91,19 @@ public class MultiplySequence {
 //        System.out.println("INDEX:          " + Arrays.toString(index_mass));
 //        System.out.println("COUNT: " + Arrays.toString(counter_mass));
 
-        int find_index = find_index_of_searching_element(multiplication_mass);
+        int find_index = find_index_of_searching_element(multiplication_mass, counter_mass);
         return getResultIdexes(find_index, index_mass);
     }
 
-    private static int find_index_of_searching_element(long[] multiplication_mass) {
-        int find_idex = -1;
+    private static int find_index_of_searching_element(long[] multiplication_mass, int[] counter_mass) {
+        int find_index = -1;
         for (int i = 0; i < multiplication_mass.length; i++) {
-            if (multiplication_mass[i] == multiplicationNumber) {
-                find_idex = i;
+            if (multiplication_mass[i] == multiplicationNumber && counter_mass[i] == countOfElements) {
+                find_index = i;
                 break;
             }
         }
-        return find_idex;
+        return find_index;
     }
 
     public static List<Integer> getResultIdexes(int find_index, int[] index_mass) {
@@ -115,23 +113,7 @@ public class MultiplySequence {
             find_index = index_mass[find_index];
             countOfElements--;
         }
+        System.out.println(answer);
         return answer;
     }
 }
-
-
-// else if (mult2 <= multiplicationNumber && multiplicationNumber % mult2 == 0) {
-//
-//         if (counter_mass[i] + counter_mass[j] < countOfElements && mult2 < multiplicationNumber) {
-//        multiplication_mass[i] = mult2;
-//        index_mass[i] = j;
-//        counter_mass[i]+=counter_mass[j];
-//        }
-//        if (counter_mass[i] + counter_mass[j] == countOfElements && mult2 == multiplicationNumber) {
-//        multiplication_mass[i] = mult2;
-//        index_mass[i] = j;
-//        counter_mass[i]+=counter_mass[j];
-//        stop=true;
-//        break;
-//        }
-//        }
