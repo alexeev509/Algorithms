@@ -4,15 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.List;
 
-//IN PROCESS !! 
+//IN PROCESS !!
 public class MultiplySequence {
 
     static int massLen;
     static int multiplicationNumber;
     static int countOfElements;
-    static int [] mass;
+    static int[] mass;
 
     public static void main(String[] args) throws IOException {
         readInput(System.in);
@@ -21,65 +22,48 @@ public class MultiplySequence {
 
 
     public static void readInput(InputStream s) throws IOException {
-        BufferedReader in=new BufferedReader(new InputStreamReader(s));
+        BufferedReader in = new BufferedReader(new InputStreamReader(s));
         massLen = Integer.parseInt(in.readLine());
         multiplicationNumber = Integer.parseInt(in.readLine());
         countOfElements = Integer.parseInt(in.readLine());
 
-        mass=new int[massLen];
+        mass = new int[massLen];
 
         for (int i = 0; i < massLen; i++) {
-            mass[i]=Integer.parseInt(in.readLine());
+            mass[i] = Integer.parseInt(in.readLine());
         }
     }
 
-    public static void searchMultiplication() {
-        LinkedList<Structure> linkedList=new LinkedList<Structure>();
+    public static List<Integer> searchMultiplication() {
+        int[] multiplication_mass = new int[mass.length];
+        System.arraycopy(mass, 0, multiplication_mass, 0, mass.length);
+        int[] counter_mass = new int[mass.length];
+        Arrays.fill(counter_mass, 1);
+        System.out.println(Arrays.toString(counter_mass));
+
+        int[] index_mass = new int[mass.length];
         for (int i = 0; i < mass.length; i++) {
-            linkedList.add(new Structure(i,mass[i],1));
+            index_mass[i] = i;
         }
 
-        for (int i = 0; i < linkedList.size(); i++) {
-//            Structure value = linkedList.pop();
-
+        for (int i = 0; i < mass.length; i++) {
+            for (int j = 0; j < i; j++) {
+                int mult = multiplication_mass[j] * multiplication_mass[i];
+                if (mult <= multiplicationNumber) {
+                    if (counter_mass[j] < countOfElements && mult < multiplicationNumber) {
+                        multiplication_mass[i] = mult;
+                        index_mass[i] = j;
+                    }
+                    if (counter_mass[j] == countOfElements && mult == multiplicationNumber) {
+                        multiplication_mass[i] = mult;
+                        index_mass[i] = j;
+                        break;
+                    }
+                }
+            }
         }
+
+        System.out.println(Arrays.toString(multiplication_mass));
+        return null;
     }
-
-    private static class Structure{
-        int index;
-        int multValue;
-        int counter;
-
-        public Structure(int index, int multValue, int counter) {
-            this.index = index;
-            this.multValue = multValue;
-            this.counter = counter;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-
-        public void setIndex(int index) {
-            this.index = index;
-        }
-
-        public int getMultValue() {
-            return multValue;
-        }
-
-        public void setMultValue(int multValue) {
-            this.multValue = multValue;
-        }
-
-        public int getCounter() {
-            return counter;
-        }
-
-        public void setCounter(int counter) {
-            this.counter = counter;
-        }
-    }
-
-
 }
