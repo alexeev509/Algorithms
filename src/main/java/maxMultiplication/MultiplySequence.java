@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,6 @@ public class MultiplySequence {
         System.arraycopy(mass, 0, multiplication_mass, 0, mass.length);
         int[] counter_mass = new int[mass.length];
         Arrays.fill(counter_mass, 1);
-        System.out.println(Arrays.toString(counter_mass));
 
         int[] index_mass = new int[mass.length];
         for (int i = 0; i < mass.length; i++) {
@@ -48,22 +48,54 @@ public class MultiplySequence {
 
         for (int i = 0; i < mass.length; i++) {
             for (int j = 0; j < i; j++) {
-                int mult = multiplication_mass[j] * multiplication_mass[i];
-                if (mult <= multiplicationNumber) {
-                    if (counter_mass[j] < countOfElements && mult < multiplicationNumber) {
+                int mult = mass[j] * mass[i];
+                if (mult <= multiplicationNumber && multiplicationNumber % mult == 0) {
+
+                    if (counter_mass[i] + 1 < countOfElements && mult < multiplicationNumber) {
                         multiplication_mass[i] = mult;
                         index_mass[i] = j;
+                        counter_mass[i]++;
                     }
-                    if (counter_mass[j] == countOfElements && mult == multiplicationNumber) {
+                    if (counter_mass[i] + 1 == countOfElements && mult == multiplicationNumber) {
                         multiplication_mass[i] = mult;
                         index_mass[i] = j;
+                        counter_mass[i]++;
                         break;
                     }
                 }
             }
+//            if (counter_mass[i] != countOfElements) {
+//                index_mass[i]=i;
+//            }
         }
+        System.out.println("MASS: " + Arrays.toString(mass));
+        System.out.println("MULTIPLICATION: " + Arrays.toString(multiplication_mass));
+        System.out.println("INDEX:          " + Arrays.toString(index_mass));
+        System.out.println("COUNT: " + Arrays.toString(counter_mass));
 
-        System.out.println(Arrays.toString(multiplication_mass));
-        return null;
+        int find_index = find_index_of_searching_element(multiplication_mass);
+        return getResultIdexes(find_index, index_mass);
+    }
+
+    private static int find_index_of_searching_element(int[] multiplication_mass) {
+        int find_idex = -1;
+        for (int i = 0; i < multiplication_mass.length; i++) {
+            if (multiplication_mass[i] == multiplicationNumber) {
+                find_idex = i;
+                break;
+            }
+        }
+        return find_idex;
+    }
+
+    public static List<Integer> getResultIdexes(int find_index, int[] index_mass) {
+        List<Integer> answer = new ArrayList<Integer>();
+        while (countOfElements > 0) {
+            answer.add(find_index + 1);
+            find_index = index_mass[find_index];
+            countOfElements--;
+        }
+        System.out.println(answer.toString());
+        return answer;
     }
 }
