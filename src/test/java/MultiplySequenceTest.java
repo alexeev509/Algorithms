@@ -22,4 +22,13 @@ public class MultiplySequenceTest {
         List<Integer> expected = Arrays.asList(4, 2);
         Assert.assertEquals(actual, expected);
     }
+
+
+    @Test
+    public void searchMultiplicationTest_3() throws Exception {
+        MultiplySequence.readInput(new FileInputStream("./src/test/TestInputFiles/maxMultiplySequence3.txt"));
+        List<Integer> actual = MultiplySequence.searchMultiplication();
+        List<Integer> expected = Arrays.asList(7, 6, 2);
+        Assert.assertEquals(actual, expected);
+    }
 }
