@@ -12,9 +12,9 @@ import java.util.List;
 public class MultiplySequence {
 
     static int massLen;
-    static long multiplicationNumber;
-    static int countOfElements;
-    static long[] mass;
+    static double multiplicationNumber;
+    static long countOfElements;
+    static double[] mass;
 
     public static void main(String[] args) throws IOException {
         readInput(System.in);
@@ -29,21 +29,21 @@ public class MultiplySequence {
         BufferedReader in = new BufferedReader(new InputStreamReader(s));
         String[] firstLine = in.readLine().split(" ");
         massLen = Integer.parseInt(firstLine[0]);
-        multiplicationNumber = Long.parseLong(firstLine[1]);
-        countOfElements = Integer.parseInt(firstLine[2]);
+        multiplicationNumber = Double.parseDouble(firstLine[1]);
+        countOfElements = Long.parseLong(firstLine[2]);
 
-        mass = new long[massLen];
+        mass = new double[massLen];
 
         String[] secondLine = in.readLine().split(" ");
         for (int i = 0; i < massLen; i++) {
-            mass[i] = Integer.parseInt(secondLine[i]);
+            mass[i] = Double.parseDouble(secondLine[i]);
         }
     }
 
     public static List<Integer> searchMultiplication() {
-        long[] multiplication_mass = new long[mass.length];
+        double[] multiplication_mass = new double[mass.length];
         System.arraycopy(mass, 0, multiplication_mass, 0, mass.length);
-        int[] counter_mass = new int[mass.length];
+        long[] counter_mass = new long[mass.length];
         Arrays.fill(counter_mass, 1);
 
         int[] index_mass = new int[mass.length];
@@ -53,15 +53,20 @@ public class MultiplySequence {
         boolean stop = false;
         for (int i = 0; i < mass.length; i++) {
             for (int j = 0; j < i; j++) {
-                //Необходимо выбрать - брать новый элемент
-                long mult = mass[j] * mass[i];
-                //Или учитывать предыдущие умножения
-                long mult2 = multiplication_mass[j] * mass[i];
+                //Необходимо умножить новый элемент на текущий - брать новый элемент
+                double mult = mass[j] * mass[i];
+                //Или учитывать предыдущие умножения нового элемента
+                double mult2 = multiplication_mass[j] * mass[i];
 
 
-                if (mult <= multiplicationNumber && multiplicationNumber % mult == 0) {
+//                if (i == 4) {
+//                    System.out.println("");
+//                }
 
-                    if (counter_mass[i] + 1 == countOfElements && mult == multiplicationNumber) {
+                if ((mult <= multiplicationNumber && multiplicationNumber % mult == 0) ||
+                        (mult2 <= multiplicationNumber && multiplicationNumber % mult2 == 0)) {
+                    //counter_mass[i] change on counter_mass[j]
+                    if (2 == countOfElements && mult == multiplicationNumber) {
                         multiplication_mass[i] = mult;
                         index_mass[i] = j;
                         counter_mass[i]++;
@@ -73,7 +78,11 @@ public class MultiplySequence {
                         counter_mass[i] = counter_mass[j] + 1;
                         stop = true;
                         break;
-                    } else if (counter_mass[i] + 1 < countOfElements && mult <= multiplicationNumber) {
+                    } else if (counter_mass[j] + 1 < countOfElements && mult2 <= multiplicationNumber) {
+                        multiplication_mass[i] = mult2;
+                        index_mass[i] = j;
+                        counter_mass[i] = counter_mass[j] + 1;
+                    } else if (2 < countOfElements && mult <= multiplicationNumber && counter_mass[i] + 1 != countOfElements) {
                         multiplication_mass[i] = mult;
                         index_mass[i] = j;
                         counter_mass[i]++;
@@ -86,16 +95,16 @@ public class MultiplySequence {
                 break;
             }
         }
-//        System.out.println("MASS: " + Arrays.toString(mass));
-//        System.out.println("MULTIPLICATION: " + Arrays.toString(multiplication_mass));
-//        System.out.println("INDEX:          " + Arrays.toString(index_mass));
-//        System.out.println("COUNT: " + Arrays.toString(counter_mass));
+        System.out.println("MASS: " + Arrays.toString(mass));
+        System.out.println("MULTIPLICATION: " + Arrays.toString(multiplication_mass));
+        System.out.println("INDEX:          " + Arrays.toString(index_mass));
+        System.out.println("COUNT: " + Arrays.toString(counter_mass));
 
         int find_index = find_index_of_searching_element(multiplication_mass, counter_mass);
         return getResultIdexes(find_index, index_mass);
     }
 
-    private static int find_index_of_searching_element(long[] multiplication_mass, int[] counter_mass) {
+    private static int find_index_of_searching_element(double[] multiplication_mass, long[] counter_mass) {
         int find_index = -1;
         for (int i = 0; i < multiplication_mass.length; i++) {
             if (multiplication_mass[i] == multiplicationNumber && counter_mass[i] == countOfElements) {
@@ -113,7 +122,7 @@ public class MultiplySequence {
             find_index = index_mass[find_index];
             countOfElements--;
         }
-        System.out.println(answer);
+//        System.out.println(answer);
         return answer;
     }
 }
