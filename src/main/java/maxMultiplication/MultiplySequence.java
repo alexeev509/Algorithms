@@ -58,41 +58,111 @@ public class MultiplySequence {
                 //Или учитывать предыдущие умножения нового элемента
                 double mult2 = multiplication_mass[j] * mass[i];
 
+                double mult3 = multiplication_mass[i] * mass[j];
 
-//                if (i == 4) {
-//                    System.out.println("");
-//                }
-
-                if ((mult <= multiplicationNumber && multiplicationNumber % mult == 0) ||
-                        (mult2 <= multiplicationNumber && multiplicationNumber % mult2 == 0)) {
-                    //counter_mass[i] change on counter_mass[j]
-                    if (2 == countOfElements && mult == multiplicationNumber) {
-                        multiplication_mass[i] = mult;
-                        index_mass[i] = j;
-                        counter_mass[i]++;
-                        stop = true;
-                        break;
-                    } else if (counter_mass[j] + 1 == countOfElements && mult2 == multiplicationNumber) {
-                        multiplication_mass[i] = mult2;
-                        index_mass[i] = j;
-                        counter_mass[i] = counter_mass[j] + 1;
-                        stop = true;
-                        break;
-                    } else if (counter_mass[j] + 1 < countOfElements && mult2 <= multiplicationNumber) {
-                        multiplication_mass[i] = mult2;
-                        index_mass[i] = j;
-                        counter_mass[i] = counter_mass[j] + 1;
-                    } else if (2 < countOfElements && mult <= multiplicationNumber && counter_mass[i] + 1 != countOfElements) {
-                        multiplication_mass[i] = mult;
-                        index_mass[i] = j;
-                        counter_mass[i]++;
-                    }
-
+                if (i == 4) {
+                    System.out.println("");
                 }
+                if (multiplicationNumber % mult == 0 && multiplicationNumber % mult2 == 0) {
+                    if (mult >= mult2) {
+                        // Если найдено нужное число и количествое его умножений = 2
+                        if (mult == multiplicationNumber && countOfElements == counter_mass[i] + 1) {
+                            multiplication_mass[i] = mult;
+                            index_mass[i] = j;
+                            counter_mass[i] += 1;
+                            stop = true;
+                            break;
+                        }
+                        //Иначе (может надо проверять - чтобы mult!=multiplicationNumber ??)
+                        else if (countOfElements != counter_mass[i] + 1) {
+                            multiplication_mass[i] = mult;
+                            index_mass[i] = j;
+//                            counter_mass[i] = 2;
+                            counter_mass[i]++;
 
-            }
-            if (stop) {
-                break;
+                        } else {
+                            multiplication_mass[i] = mult;
+                            index_mass[i] = j;
+                            counter_mass[i] = 2;
+                        }
+                    } else {
+                        if (mult2 == multiplicationNumber && countOfElements == counter_mass[j] + 1) {
+                            multiplication_mass[i] = mult2;
+                            index_mass[i] = j;
+                            counter_mass[i] = counter_mass[j] + 1;
+                            stop = true;
+                            break;
+                        } else if (countOfElements != counter_mass[j] + 1) {
+                            multiplication_mass[i] = mult2;
+                            index_mass[i] = j;
+                            counter_mass[i] = counter_mass[j] + 1;
+                        }
+                    }
+                } else if (multiplicationNumber % mult == 0) {
+                    // Если найдено нужное число и количествое его умножений = 2
+                    if (mult == multiplicationNumber && countOfElements == counter_mass[i] + 1) {
+                        multiplication_mass[i] = mult;
+                        index_mass[i] = j;
+                        counter_mass[i]++;
+                        stop = true;
+                        break;
+                    }
+                    //Иначе (может надо проверять - чтобы mult!=multiplicationNumber ??)
+                    else if (countOfElements != counter_mass[i] + 1) {
+                        multiplication_mass[i] = mult;
+                        index_mass[i] = j;
+//                        counter_mass[i] = 2;
+                        counter_mass[i]++;
+                    } else {
+                        multiplication_mass[i] = mult;
+                        index_mass[i] = j;
+                        counter_mass[i] = 2;
+                    }
+                } else if (multiplicationNumber % mult2 == 0) {
+                    // Если найдено нужное число и количествое его умножений = counter_mass[j]+1
+                    if (mult2 == multiplicationNumber && countOfElements == counter_mass[j] + 1) {
+                        multiplication_mass[i] = mult2;
+                        index_mass[i] = j;
+                        counter_mass[i] = counter_mass[j] + 1;
+                        stop = true;
+                        break;
+                    } else if (countOfElements != counter_mass[j] + 1) {
+                        multiplication_mass[i] = mult2;
+                        index_mass[i] = j;
+                        counter_mass[i] = counter_mass[j] + 1;
+                    }
+                }
+//                if ((mult <= multiplicationNumber && multiplicationNumber % mult == 0) ||
+//                        (mult2 <= multiplicationNumber && multiplicationNumber % mult2 == 0)) {
+//                    //counter_mass[i] change on counter_mass[j]
+//                    if (2 == countOfElements && mult == multiplicationNumber) {
+//                        multiplication_mass[i] = mult;
+//                        index_mass[i] = j;
+//                        counter_mass[i]++;
+//                        stop = true;
+//                        break;
+//                    } else if (counter_mass[j] + 1 == countOfElements && mult2 == multiplicationNumber) {
+//                        multiplication_mass[i] = mult2;
+//                        index_mass[i] = j;
+//                        counter_mass[i] = counter_mass[j] + 1;
+//                        stop = true;
+//                        break;
+//                    } else if (counter_mass[j] + 1 < countOfElements && mult2 <= multiplicationNumber) {
+//                        multiplication_mass[i] = mult2;
+//                        index_mass[i] = j;
+//                        counter_mass[i] = counter_mass[j] + 1;
+//                    } else if (2 < countOfElements && mult <= multiplicationNumber && counter_mass[i] + 1 != countOfElements) {
+//                        multiplication_mass[i] = mult;
+//                        index_mass[i] = j;
+//                        counter_mass[i]++;
+//                    }
+//
+//                }
+//
+//            }
+                if (stop) {
+                    break;
+                }
             }
         }
         System.out.println("MASS: " + Arrays.toString(mass));
