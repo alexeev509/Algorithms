@@ -15,12 +15,14 @@ public class Task_13C {
     public static void readInput(InputStream s) {
         Scanner in = new Scanner(s);
         size = in.nextInt();
+        sequence = new int[size];
         for (int i = 0; i < size; i++) {
             sequence[i] = in.nextInt();
         }
     }
 
-    public static void findAnswer() {
-        
+    public static int findAnswer() {
+        //NOP
+        return -1;
     }
 }
