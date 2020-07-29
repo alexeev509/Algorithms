@@ -36,13 +36,9 @@ public class E656 {
                 int start = in.nextInt();
                 int end = in.nextInt();
                 if (weHaveOrNot == 1) {
-                    ArrayList<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();
-                    listOfPairs.add(new Pair<>(1, end));
-                    mapOfVertexes.put(start, listOfPairs);
+                    mapOfVertexes.get(start).add(new Pair<>(1, end));
                 } else {
-                    ArrayList<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();
-                    listOfPairs.add(new Pair<>(-1, end));
-                    mapOfVertexes.put(start, listOfPairs);
+                    mapOfVertexes.get(start).add(new Pair<>(-1, end));
                 }
             }
             printMap(mapOfVertexes, i);
